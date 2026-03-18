@@ -4,6 +4,12 @@
 
 set -e
 
+# Cuando se ejecuta via curl | bash, stdin es el pipe y los 'read' no funcionan.
+# Reconectar stdin a la terminal para permitir interaccion.
+if [ ! -t 0 ]; then
+  exec < /dev/tty
+fi
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # --- Deteccion de modo: local vs curl | bash ---
