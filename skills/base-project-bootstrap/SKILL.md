@@ -63,6 +63,8 @@ Arrancar cualquier trabajo con el mismo contexto operativo, inspeccionando prime
 
 ## Reglas
 - No modificar codigo ni documentacion hasta tener claro el alcance.
+- Cualquier modificacion de codigo, aunque sea un fix puntual o una correccion de compilacion, debe pasar por `base-develop-task`. Si la conversacion deriva hacia cambios directos sin invocarla, detener y reconducir el flujo antes de tocar codigo.
+- Un cambio no esta terminado hasta que su documentacion este persistida en `doc/`. Si se presenta un cambio como "listo" sin documentacion, el flujo esta roto.
 - Si faltan `AGENTS.md`, `REGLAS_DE_ORO.md` o `DOC/`, seguir con la mejor inferencia local y señalar la ausencia de forma explicita.
 - No asumir una estructura fija de proyecto: primero comprobar, luego inferir.
 - Si una tarea toca varios proyectos, mantener un resumen separado por proyecto.

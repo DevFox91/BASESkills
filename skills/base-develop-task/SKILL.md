@@ -114,3 +114,8 @@ Detenerse y pedir informacion solo si ocurre una de estas situaciones:
 - Cambio relevante -> `Changelog.md`
 - Si aparecen reglas nuevas o errores repetibles, coordinar con `base-golden-rules` o `base-error-registry`.
 - Si aparece aprendizaje operativo reutilizable, coordinar con `base-document-project` para actualizar `Memory/*.md`.
+
+## Condicion de cierre obligatoria
+- Un cambio de codigo NO esta terminado hasta que la documentacion este persistida.
+- No presentar ningun cambio al usuario como "listo", "hecho" o equivalente sin haber ejecutado el paso 8.
+- Si la sesion termina antes de documentar, indicar explicitamente que la documentacion queda pendiente y hacerlo en el siguiente turno antes de cualquier otro cambio.
