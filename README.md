@@ -1,0 +1,56 @@
+# Skill System Package — v1.0.1
+
+## En que consiste
+Este paquete contiene un sistema portable de skills para un agente IA. El sistema esta pensado como un motor de trabajo generalista: organiza el flujo de arranque, analisis, planificacion, desarrollo, validacion, manejo de errores y persistencia documental sin acoplarse a un proyecto, lenguaje o framework concretos.
+
+## Instalacion
+Las skills se instalan en la **configuracion global** del agente IA, no dentro de ninguna carpeta de proyecto. Esto las hace disponibles en todos los proyectos sin reinstalar. Ver `AGENT_INSTALL.md` para instrucciones detalladas por agente (Claude Code, Cursor, Windsurf, otros).
+
+## Alcance exportado
+- Version: `1.0.1`
+- Scope: `base`
+- Instalacion: `global`
+- Numero de skills incluidas: `11`
+
+## Estructura del paquete
+```text
+README.md
+AGENT_INSTALL.md
+manifest.json
+skills/
+  <skill>/
+    SKILL.md
+    ...
+```
+
+## Skills incluidas
+- `base-analyze-module`: Analizar un modulo desde perspectiva funcional, estructural y tecnica, generando documentacion por proyecto implicado. Usar cuando se pida entender un modulo, auditarlo, documentarlo o detectar riesgos antes de cambiarlo.
+- `base-backup-skills`: Generar un backup de las skills disponibles en la ruta solicitada, distinguiendo si se quiere todo el catalogo o solo las skills base. Usar cuando el usuario pida exportar, copiar o respaldar skills.
+- `base-data-map`: Generar un mapa de datos por archivo y por metodo, indicando que datos recibe y envia, con tipos y origen/destino verificables. Usar cuando haya que documentar flujo de datos en cualquier stack o como soporte de un analisis tecnico.
+- `base-develop-task`: Ejecutar una tarea o un plan siguiendo fases, restricciones y documentacion comun. Usar cuando se pida implementar cambios, ya exista un plan o no, y haya que desarrollar de forma consistente entre proyectos.
+- `base-document-project`: Organizar y mantener la documentacion persistente del proyecto bajo DOC/PROYECTO/SUBPROYECTO/MODULO. Usar cuando otra skill necesite guardar o actualizar analysis, changelog, errores, planes, tareas o reuniones.
+- `base-error-registry`: Consultar, resolver y registrar errores o comportamientos no deseados por modulo. Usar cuando aparezca un error, una excepcion o una regresion para comprobar si ya existe solucion documentada o registrarla si es nueva.
+- `base-golden-rules`: Leer, aplicar y mantener reglas de oro globales y locales del proyecto. Usar cuando haya restricciones que no se deban romper y cuando se detecten patrones que convenga promover a regla permanente.
+- `base-memory-protocol`: Definir cuando consultar, guardar, actualizar y consolidar memoria operativa reusable del motor base. Usar cuando una tarea pueda beneficiarse de contexto previo o deje aprendizaje transversal para futuras sesiones.
+- `base-plan-work`: Generar un plan de trabajo por fases con archivos a tocar, cambios de codigo esperados, justificacion y estado. Usar cuando el usuario pida planificar una tarea antes de implementarla.
+- `base-project-bootstrap`: Leer AGENTS.md, reglas de oro y contexto documental antes de trabajar en uno o varios proyectos. Usar al inicio de un chat o cuando cambie el alcance para alinear proyectos implicados, subproyectos, modulos, skills aplicables y restricciones.
+- `base-test-strategy`: Proponer y ejecutar la estrategia minima de tests antes y despues de cambios, detectando cobertura faltante y riesgos de regresion. Usar cuando se vaya a tocar codigo o cuando se quiera revisar que comprobar en un modulo.
+
+## Como interactuan entre ellas
+- Flujo base sugerido del motor:
+  - `base-project-bootstrap` alinea alcance, reglas y contexto documental.
+  - `base-memory-protocol` decide cuando consultar o persistir memoria reusable.
+  - `base-golden-rules` protege restricciones estables y evita romper criterios del motor o del proyecto.
+  - `base-plan-work` estructura el trabajo si la tarea necesita plan.
+  - `base-analyze-module` y `base-data-map` profundizan en el modulo cuando hace falta entenderlo antes de tocarlo.
+  - `base-develop-task` ejecuta el cambio real coordinando plan, memoria, validacion y documentacion.
+  - `base-test-strategy` fija la validacion minima relevante y detecta huecos.
+  - `base-error-registry` reutiliza o registra diagnosticos y soluciones repetibles.
+  - `base-document-project` actua como capa de persistencia para planes, tareas, errores, analisis y memoria operativa.
+- `base-backup-skills` queda fuera del flujo diario: sirve para exportar o respaldar el motor cuando se necesita moverlo o conservarlo.
+
+## Criterio del sistema
+- Las skills base definen fases del trabajo, no detalles de stack.
+- El contexto especifico de proyecto debe vivir fuera del motor base.
+- La memoria operativa se usa de forma ligera y selectiva; no sustituye la verificacion del estado real del proyecto.
+- La documentacion persistente y la memoria operativa se coordinan a traves de `base-document-project` y `base-memory-protocol`.

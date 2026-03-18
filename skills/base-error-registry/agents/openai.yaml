@@ -1,0 +1,6 @@
+interface:
+  display_name: "Base / Errores"
+  short_description: "Busca y registra errores por modulo"
+  default_prompt: "Usa $base-error-registry para revisar si un error ya esta documentado y registrar la solucion si es nuevo."
+policy:
+  allow_implicit_invocation: true
