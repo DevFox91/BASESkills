@@ -1,4 +1,4 @@
-# Agent Install Guide — v1.0.1
+# Agent Install Guide — v1.0.3
 
 ## Objetivo
 Instalar el motor base de skills en la configuracion **global** del agente IA, para que esten disponibles en todos los proyectos sin tener que reinstalar por proyecto.
@@ -20,7 +20,9 @@ y usar esa ubicacion. No se prescribe una ruta fija: cada herramienta tiene la s
 Proporciona al agente la ruta a este zip y dile:
 > "Instala el motor de skills en tu configuracion global desde este zip: /ruta/al/zip"
 
-El agente leera este archivo y seguira los pasos de forma desatendida.
+El agente leera este archivo y seguira los pasos con la menor interaccion posible.
+Si detecta varias herramientas, una ruta personalizada o una skill ya existente, debera
+pedir confirmacion antes de continuar.
 
 ---
 
@@ -65,6 +67,11 @@ Solo debe preguntar si hay ambiguedad que el usuario deba resolver (por ejemplo,
    - Si la skill NO existe en el sistema global: instalarla.
    - Si YA existe: informar al usuario y preguntar si sobreescribir.
 3. Verificar que las skills quedan disponibles globalmente para todos los proyectos.
+
+Nota sobre automatizacion:
+- El instalador `install.sh` no es completamente desatendido.
+- Puede pedir confirmacion para elegir destino, usar ruta personalizada o sobrescribir una skill existente.
+- Si se necesita ejecucion totalmente no interactiva, el agente debe resolver primero esas decisiones fuera del script o adaptar el flujo.
 
 ### Si el agente NO tiene sistema nativo de skills globales
 

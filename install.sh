@@ -119,9 +119,10 @@ for SKILL_DIR in "$SKILLS_SRC"/*/; do
       echo "      Omitida."
       continue
     fi
+    rm -rf "$SKILL_DEST"
   fi
 
-  cp -r "$SKILL_DIR" "$SKILL_DEST"
+  cp -r "$SKILL_DIR" "$DEST/"
   echo "  [OK] $SKILL_NAME"
 done
 

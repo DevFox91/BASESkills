@@ -1,5 +1,6 @@
 v1.0.1/
 v1.0.2/
 *.zip
+!v1.0.3/base-skill-system-v1.0.3.zip
 .DS_Store
 Thumbs.db
