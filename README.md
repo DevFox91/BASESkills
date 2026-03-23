@@ -1,4 +1,4 @@
-# Skill System Package — v1.0.5
+# Skill System Package — v1.0.6
 
 ## En que consiste
 Este paquete contiene un sistema portable de skills para un agente IA. El sistema esta pensado como un motor de trabajo generalista: organiza el flujo de arranque, analisis, planificacion, desarrollo, validacion, manejo de errores y persistencia documental sin acoplarse a un proyecto, lenguaje o framework concretos.
@@ -15,7 +15,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/DevFox91/BASESkills/main/ins
 Las skills se instalan en la **configuracion global** del agente IA, no dentro de ninguna carpeta de proyecto. Esto las hace disponibles en todos los proyectos sin reinstalar. Ver `AGENT_INSTALL.md` para instrucciones detalladas por agente (Claude Code, Cursor, Windsurf, otros).
 
 ## Alcance exportado
-- Version: `1.0.5`
+- Version: `1.0.6`
 - Scope: `base`
 - Instalacion: `global`
 - Numero de skills incluidas: `11`
@@ -58,6 +58,12 @@ skills/
 - `base-backup-skills` queda fuera del flujo diario: sirve para exportar o respaldar el motor cuando se necesita moverlo o conservarlo.
 
 ## Changelog
+
+### v1.0.6
+- **Claude Code: skills embebidas en CLAUDE.md.** `install.sh` ahora escribe los 11 SKILL.md directamente en `~/.claude/CLAUDE.md`. Se cargan una sola vez al inicio del chat como system prompt (igual que Codex con `config.toml`). No se necesita el Skill tool para el motor base en Claude Code, eliminando el coste de re-inyeccion por invocacion.
+- Reglas del motor actualizadas: eliminada la obligacion de invocar con el Skill tool; aplicacion directa desde contexto.
+- Marcador `<!-- BASE-SKILLS-EMBEDDED-v1 -->` para evitar duplicados en reinstalaciones.
+- Hook PreToolUse simplificado.
 
 ### v1.0.5
 - **Fix: bootstrap no se repite por chat.** Las skills que tienen "paso 1: ejecutar bootstrap" ahora especifican que es una verificacion, no una re-ejecucion. Si bootstrap ya se ejecuto en el chat, no se vuelve a lanzar aunque otra skill lo mencione en su flujo.

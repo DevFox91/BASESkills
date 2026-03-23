@@ -1,0 +1,6 @@
+interface:
+  display_name: "Base / Mapa De Datos"
+  short_description: "Traza datos por archivo y metodo"
+  default_prompt: "Usa $base-data-map para generar un mapa de datos metodo a metodo de uno o varios archivos."
+policy:
+  allow_implicit_invocation: true

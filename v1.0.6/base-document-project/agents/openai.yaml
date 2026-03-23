@@ -1,0 +1,6 @@
+interface:
+  display_name: "Base / Documentar"
+  short_description: "Guarda salida en DOC de forma estable"
+  default_prompt: "Usa $base-document-project para persistir documentacion en la estructura DOC/PROYECTO/SUBPROYECTO/MODULO."
+policy:
+  allow_implicit_invocation: true

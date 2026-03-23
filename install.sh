@@ -134,60 +134,74 @@ if [ "$AGENT" = "claude-code" ]; then
   CLAUDE_DIR="$HOME/.claude"
   CLAUDE_MD="$CLAUDE_DIR/CLAUDE.md"
   SETTINGS="$CLAUDE_DIR/settings.json"
-  MOTOR_MARKER="Motor de skills — obligatorio en todos los proyectos"
+  # Marcador unico que indica que las skills estan embebidas en este archivo.
+  # Si no existe, se anade el bloque completo de reglas + skills.
+  EMBED_MARKER="<!-- BASE-SKILLS-EMBEDDED-v1 -->"
 
-  # 1. CLAUDE.md global
-  if [ ! -f "$CLAUDE_MD" ]; then
-    cat > "$CLAUDE_MD" << 'EOF'
-# Reglas globales de Claude Code
-
-## Motor de skills — obligatorio en todos los proyectos
-
-Antes de tocar cualquier archivo de codigo o documentacion:
-
-1. **DEBES invocar la skill correspondiente con el `Skill` tool**, no solo mencionarla en texto.
-   - Cambios de codigo → `Skill: base-develop-task`
-   - Planificacion previa → `Skill: base-plan-work`
-   - Analisis de modulo → `Skill: base-analyze-module`
-
-2. **Un cambio no esta terminado hasta que la documentacion este persistida.**
-   Si no existe estructura `DOC/`, indicarlo explicitamente. No marcar una tarea como completa sin documentar.
-
-3. **Anunciar una skill sin invocarla con el `Skill` tool cuenta como no haberla ejecutado.**
-   Si detectas que vas a editar un archivo sin haber invocado `base-develop-task`, detente y hazlo antes.
-
-4. **`base-project-bootstrap` se ejecuta una sola vez por chat**, al inicio o si el alcance cambia.
-   Cuando una skill diga "paso 1: ejecutar bootstrap", significa verificar que ya se hizo, no repetirlo.
-   Para tareas pequenas y obvias (fix puntual, cambio de una linea), actuar directamente sin invocar la cadena completa de skills.
-EOF
-    echo "  [OK] ~/.claude/CLAUDE.md creado con reglas del motor"
-  elif ! grep -qF "$MOTOR_MARKER" "$CLAUDE_MD"; then
-    cat >> "$CLAUDE_MD" << 'EOF'
+  # Funcion: escribe las reglas del motor y embebe todos los SKILL.md
+  _embed_motor() {
+    local dest="$1"
+    cat >> "$dest" << 'EOF'
 
 ---
 
-## Motor de skills — obligatorio en todos los proyectos
+## Motor de skills — embebido en CLAUDE.md
 
-Antes de tocar cualquier archivo de codigo o documentacion:
+Las 11 skills base estan definidas al final de este archivo y se cargan una sola
+vez al inicio del chat como system prompt. No es necesario usar el Skill tool
+para invocarlas: aplica su protocolo directamente desde el contexto.
 
-1. **DEBES invocar la skill correspondiente con el `Skill` tool**, no solo mencionarla en texto.
-   - Cambios de codigo → `Skill: base-develop-task`
-   - Planificacion previa → `Skill: base-plan-work`
-   - Analisis de modulo → `Skill: base-analyze-module`
-
-2. **Un cambio no esta terminado hasta que la documentacion este persistida.**
-   Si no existe estructura `DOC/`, indicarlo explicitamente. No marcar una tarea como completa sin documentar.
-
-3. **Anunciar una skill sin invocarla con el `Skill` tool cuenta como no haberla ejecutado.**
-   Si detectas que vas a editar un archivo sin haber invocado `base-develop-task`, detente y hazlo antes.
-
-4. **`base-project-bootstrap` se ejecuta una sola vez por chat**, al inicio o si el alcance cambia.
-   Cuando una skill diga "paso 1: ejecutar bootstrap", significa verificar que ya se hizo, no repetirlo.
-   Para tareas pequenas y obvias (fix puntual, cambio de una linea), actuar directamente sin invocar la cadena completa de skills.
+Reglas de uso:
+1. **base-project-bootstrap** al inicio de cada chat o cuando cambie el alcance.
+   Una sola vez por chat — no repetirlo aunque otra skill lo mencione en su flujo.
+2. **base-develop-task** para cualquier cambio de codigo.
+   Un cambio no esta terminado hasta que la documentacion este persistida en DOC/.
+3. **Para tareas pequenas y obvias** (fix de una linea, cambio trivial),
+   actuar directamente aplicando criterio del motor sin invocar la cadena completa.
+4. Anuncia que skill estas aplicando antes de cada fase.
 EOF
-    echo "  [OK] Reglas del motor anadidas a ~/.claude/CLAUDE.md existente"
+    echo "" >> "$dest"
+    echo "$EMBED_MARKER" >> "$dest"
+    echo "" >> "$dest"
+    echo "---" >> "$dest"
+    echo "" >> "$dest"
+    echo "# Definicion de skills base" >> "$dest"
+    # Orden de carga: bootstrap primero, luego resto alfabetico
+    local ORDER=(
+      base-project-bootstrap
+      base-memory-protocol
+      base-golden-rules
+      base-plan-work
+      base-analyze-module
+      base-data-map
+      base-develop-task
+      base-test-strategy
+      base-error-registry
+      base-document-project
+      base-backup-skills
+    )
+    for SKILL_NAME in "${ORDER[@]}"; do
+      SKILL_FILE="$SKILLS_SRC/$SKILL_NAME/SKILL.md"
+      if [ -f "$SKILL_FILE" ]; then
+        echo "" >> "$dest"
+        echo "---" >> "$dest"
+        echo "" >> "$dest"
+        cat "$SKILL_FILE" >> "$dest"
+      fi
+    done
+    echo ""
+  }
+
+  # 1. CLAUDE.md global
+  if [ ! -f "$CLAUDE_MD" ]; then
+    echo "# Reglas globales de Claude Code" > "$CLAUDE_MD"
+    _embed_motor "$CLAUDE_MD"
+    echo "  [OK] ~/.claude/CLAUDE.md creado con motor de skills embebido"
+  elif ! grep -qF "$EMBED_MARKER" "$CLAUDE_MD"; then
+    _embed_motor "$CLAUDE_MD"
+    echo "  [OK] Motor de skills embebido en ~/.claude/CLAUDE.md existente"
   else
-    echo "  [--] ~/.claude/CLAUDE.md ya contiene las reglas del motor"
+    echo "  [--] ~/.claude/CLAUDE.md ya contiene el motor de skills embebido"
   fi
 
   # 2. Hook PreToolUse en settings.json
@@ -201,7 +215,7 @@ EOF
         "hooks": [
           {
             "type": "command",
-            "command": "echo '{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"additionalContext\":\"⚠ MOTOR DE SKILLS: Antes de editar este archivo, ¿invocaste base-develop-task via Skill tool? Si no lo hiciste, detente y hazlo antes de continuar.\"}}'"
+            "command": "echo '{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"additionalContext\":\"⚠ MOTOR DE SKILLS: Recuerda aplicar base-develop-task y documentar el cambio en DOC/ antes de continuar.\"}}'"
           }
         ]
       }
@@ -219,7 +233,7 @@ hook_entry = {
     "matcher": "Edit|Write",
     "hooks": [{
         "type": "command",
-        "command": "echo '{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"additionalContext\":\"⚠ MOTOR DE SKILLS: Antes de editar este archivo, ¿invocaste base-develop-task via Skill tool? Si no lo hiciste, detente y hazlo antes de continuar.\"}}'",
+        "command": "echo '{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"additionalContext\":\"⚠ MOTOR DE SKILLS: Recuerda aplicar base-develop-task y documentar el cambio en DOC/ antes de continuar.\"}}'",
         "statusMessage": "Verificando motor de skills..."
     }]
 }
