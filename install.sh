@@ -126,6 +126,117 @@ for SKILL_DIR in "$SKILLS_SRC"/*/; do
   echo "  [OK] $SKILL_NAME"
 done
 
+# --- Configuracion global Claude Code ---
+if [ "$AGENT" = "claude-code" ]; then
+  echo ""
+  echo "Configurando entorno Claude Code..."
+
+  CLAUDE_DIR="$HOME/.claude"
+  CLAUDE_MD="$CLAUDE_DIR/CLAUDE.md"
+  SETTINGS="$CLAUDE_DIR/settings.json"
+  MOTOR_MARKER="Motor de skills — obligatorio en todos los proyectos"
+
+  # 1. CLAUDE.md global
+  if [ ! -f "$CLAUDE_MD" ]; then
+    cat > "$CLAUDE_MD" << 'EOF'
+# Reglas globales de Claude Code
+
+## Motor de skills — obligatorio en todos los proyectos
+
+Antes de tocar cualquier archivo de codigo o documentacion:
+
+1. **DEBES invocar la skill correspondiente con el `Skill` tool**, no solo mencionarla en texto.
+   - Cambios de codigo → `Skill: base-develop-task`
+   - Planificacion previa → `Skill: base-plan-work`
+   - Analisis de modulo → `Skill: base-analyze-module`
+
+2. **Un cambio no esta terminado hasta que la documentacion este persistida.**
+   Si no existe estructura `DOC/`, indicarlo explicitamente. No marcar una tarea como completa sin documentar.
+
+3. **Anunciar una skill sin invocarla con el `Skill` tool cuenta como no haberla ejecutado.**
+   Si detectas que vas a editar un archivo sin haber invocado `base-develop-task`, detente y hazlo antes.
+EOF
+    echo "  [OK] ~/.claude/CLAUDE.md creado con reglas del motor"
+  elif ! grep -qF "$MOTOR_MARKER" "$CLAUDE_MD"; then
+    cat >> "$CLAUDE_MD" << 'EOF'
+
+---
+
+## Motor de skills — obligatorio en todos los proyectos
+
+Antes de tocar cualquier archivo de codigo o documentacion:
+
+1. **DEBES invocar la skill correspondiente con el `Skill` tool**, no solo mencionarla en texto.
+   - Cambios de codigo → `Skill: base-develop-task`
+   - Planificacion previa → `Skill: base-plan-work`
+   - Analisis de modulo → `Skill: base-analyze-module`
+
+2. **Un cambio no esta terminado hasta que la documentacion este persistida.**
+   Si no existe estructura `DOC/`, indicarlo explicitamente. No marcar una tarea como completa sin documentar.
+
+3. **Anunciar una skill sin invocarla con el `Skill` tool cuenta como no haberla ejecutado.**
+   Si detectas que vas a editar un archivo sin haber invocado `base-develop-task`, detente y hazlo antes.
+EOF
+    echo "  [OK] Reglas del motor anadidas a ~/.claude/CLAUDE.md existente"
+  else
+    echo "  [--] ~/.claude/CLAUDE.md ya contiene las reglas del motor"
+  fi
+
+  # 2. Hook PreToolUse en settings.json
+  if [ ! -f "$SETTINGS" ]; then
+    cat > "$SETTINGS" << 'EOF'
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"additionalContext\":\"⚠ MOTOR DE SKILLS: Antes de editar este archivo, ¿invocaste base-develop-task via Skill tool? Si no lo hiciste, detente y hazlo antes de continuar.\"}}'"
+          }
+        ]
+      }
+    ]
+  }
+}
+EOF
+    echo "  [OK] ~/.claude/settings.json creado con hook del motor"
+  elif ! grep -qF "base-develop-task" "$SETTINGS"; then
+    python3 - "$SETTINGS" << 'PYEOF'
+import json, sys
+
+path = sys.argv[1]
+hook_entry = {
+    "matcher": "Edit|Write",
+    "hooks": [{
+        "type": "command",
+        "command": "echo '{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"additionalContext\":\"⚠ MOTOR DE SKILLS: Antes de editar este archivo, ¿invocaste base-develop-task via Skill tool? Si no lo hiciste, detente y hazlo antes de continuar.\"}}'",
+        "statusMessage": "Verificando motor de skills..."
+    }]
+}
+
+try:
+    with open(path) as f:
+        data = json.load(f)
+except (json.JSONDecodeError, FileNotFoundError):
+    data = {}
+
+hooks = data.setdefault("hooks", {})
+pre = hooks.setdefault("PreToolUse", [])
+pre.append(hook_entry)
+
+with open(path, "w") as f:
+    json.dump(data, f, indent=2, ensure_ascii=False)
+    f.write("\n")
+
+print("  [OK] Hook del motor anadido a ~/.claude/settings.json")
+PYEOF
+  else
+    echo "  [--] ~/.claude/settings.json ya contiene el hook del motor"
+  fi
+fi
+
 echo ""
 echo "Instalacion completada en: $DEST"
 echo "Reinicia el agente para que cargue las skills."
