@@ -1,4 +1,4 @@
-# Skill System Package — v1.0.3
+# Skill System Package — v1.0.4
 
 ## En que consiste
 Este paquete contiene un sistema portable de skills para un agente IA. El sistema esta pensado como un motor de trabajo generalista: organiza el flujo de arranque, analisis, planificacion, desarrollo, validacion, manejo de errores y persistencia documental sin acoplarse a un proyecto, lenguaje o framework concretos.
@@ -15,7 +15,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/DevFox91/BASESkills/main/ins
 Las skills se instalan en la **configuracion global** del agente IA, no dentro de ninguna carpeta de proyecto. Esto las hace disponibles en todos los proyectos sin reinstalar. Ver `AGENT_INSTALL.md` para instrucciones detalladas por agente (Claude Code, Cursor, Windsurf, otros).
 
 ## Alcance exportado
-- Version: `1.0.3`
+- Version: `1.0.4`
 - Scope: `base`
 - Instalacion: `global`
 - Numero de skills incluidas: `11`
