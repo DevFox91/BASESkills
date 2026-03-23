@@ -1,0 +1,6 @@
+interface:
+  display_name: "Base / Memory Protocol"
+  short_description: "Usa memoria operativa sin meter ruido"
+  default_prompt: "Usa $base-memory-protocol para decidir cuando consultar o guardar memoria reusable del motor."
+policy:
+  allow_implicit_invocation: true

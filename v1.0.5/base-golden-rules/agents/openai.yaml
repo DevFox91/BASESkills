@@ -1,0 +1,6 @@
+interface:
+  display_name: "Base / Reglas De Oro"
+  short_description: "Aplica y mantiene reglas persistentes"
+  default_prompt: "Usa $base-golden-rules para leer y aplicar las reglas de oro del proyecto y subproyecto."
+policy:
+  allow_implicit_invocation: true

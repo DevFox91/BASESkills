@@ -1,0 +1,6 @@
+interface:
+  display_name: "Base / Planificar"
+  short_description: "Genera planes por fases y archivos"
+  default_prompt: "Usa $base-plan-work para planificar un desarrollo por fases con archivos, cambios y justificacion."
+policy:
+  allow_implicit_invocation: true

@@ -155,6 +155,10 @@ Antes de tocar cualquier archivo de codigo o documentacion:
 
 3. **Anunciar una skill sin invocarla con el `Skill` tool cuenta como no haberla ejecutado.**
    Si detectas que vas a editar un archivo sin haber invocado `base-develop-task`, detente y hazlo antes.
+
+4. **`base-project-bootstrap` se ejecuta una sola vez por chat**, al inicio o si el alcance cambia.
+   Cuando una skill diga "paso 1: ejecutar bootstrap", significa verificar que ya se hizo, no repetirlo.
+   Para tareas pequenas y obvias (fix puntual, cambio de una linea), actuar directamente sin invocar la cadena completa de skills.
 EOF
     echo "  [OK] ~/.claude/CLAUDE.md creado con reglas del motor"
   elif ! grep -qF "$MOTOR_MARKER" "$CLAUDE_MD"; then
@@ -176,6 +180,10 @@ Antes de tocar cualquier archivo de codigo o documentacion:
 
 3. **Anunciar una skill sin invocarla con el `Skill` tool cuenta como no haberla ejecutado.**
    Si detectas que vas a editar un archivo sin haber invocado `base-develop-task`, detente y hazlo antes.
+
+4. **`base-project-bootstrap` se ejecuta una sola vez por chat**, al inicio o si el alcance cambia.
+   Cuando una skill diga "paso 1: ejecutar bootstrap", significa verificar que ya se hizo, no repetirlo.
+   Para tareas pequenas y obvias (fix puntual, cambio de una linea), actuar directamente sin invocar la cadena completa de skills.
 EOF
     echo "  [OK] Reglas del motor anadidas a ~/.claude/CLAUDE.md existente"
   else
