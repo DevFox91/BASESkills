@@ -1,6 +1,0 @@
-interface:
-  display_name: "Base / Backup Skills"
-  short_description: "Respalda skills base o completas"
-  default_prompt: "Usa $base-backup-skills para hacer un backup de las skills base o de todo el catalogo."
-policy:
-  allow_implicit_invocation: true

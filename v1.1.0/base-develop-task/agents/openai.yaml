@@ -1,6 +1,0 @@
-interface:
-  display_name: "Base / Desarrollar"
-  short_description: "Implementa tareas con flujo comun"
-  default_prompt: "Usa $base-develop-task para ejecutar una tarea o plan con el flujo base de desarrollo."
-policy:
-  allow_implicit_invocation: true

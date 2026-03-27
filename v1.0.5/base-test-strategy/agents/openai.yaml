@@ -1,6 +1,0 @@
-interface:
-  display_name: "Base / Test"
-  short_description: "Define chequeos antes y despues"
-  default_prompt: "Usa $base-test-strategy para decidir que tests o validaciones ejecutar antes y despues de un cambio."
-policy:
-  allow_implicit_invocation: true

@@ -1,6 +1,0 @@
-interface:
-  display_name: "Base / Analizar"
-  short_description: "Analiza un modulo y lo documenta"
-  default_prompt: "Usa $base-analyze-module para analizar un modulo y generar documentacion tecnica y funcional."
-policy:
-  allow_implicit_invocation: true

@@ -1,4 +1,4 @@
-# Skill System Package — v1.1.0
+# Skill System Package — v1.1.1
 
 ## En que consiste
 Este paquete contiene un sistema portable de skills para un agente IA. El sistema esta pensado como un motor de trabajo generalista: organiza el flujo de arranque, analisis, planificacion, desarrollo, validacion, manejo de errores y persistencia documental sin acoplarse a un proyecto, lenguaje o framework concretos.
@@ -15,7 +15,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/DevFox91/BASESkills/main/ins
 Las skills se instalan en la **configuracion global** del agente IA, no dentro de ninguna carpeta de proyecto. Esto las hace disponibles en todos los proyectos sin reinstalar. Ver `AGENT_INSTALL.md` para instrucciones detalladas por agente (Claude Code, Cursor, Windsurf, otros).
 
 ## Alcance exportado
-- Version: `1.1.0`
+- Version: `1.1.1`
 - Scope: `base`
 - Instalacion: `global`
 - Numero de skills incluidas: `12`
@@ -59,7 +59,19 @@ skills/
   - `base-document-project` actua como capa de persistencia para planes, tareas, errores, analisis y memoria operativa.
 - `base-backup-skills` queda fuera del flujo diario: sirve para exportar o respaldar el motor cuando se necesita moverlo o conservarlo.
 
+## Politica de versionado del repositorio
+- `main` contiene solo la version viva del sistema.
+- Las versiones publicadas se marcan con tags Git: `vX.Y.Z`.
+- Los artefactos descargables deben vivir en GitHub Releases o generarse externamente.
+- No se guardan snapshots historicos (`v1.0.x/`, zips o copias completas) dentro del arbol principal del repo.
+- Las ramas se usan para trabajo o mantenimiento paralelo real, no como sustituto de tags.
+
 ## Changelog
+
+### v1.1.1
+- **Limpieza de estrategia Git del repositorio.** Se eliminan snapshots y versiones historicas del arbol principal para dejar `main` como linea viva del sistema.
+- El versionado del proyecto pasa a apoyarse en tags y releases, no en carpetas `v1.0.x/` dentro del repo.
+- `.gitignore` se simplifica para evitar volver a mezclar artefactos de release con el codigo fuente principal.
 
 ### v1.1.0
 - **Nueva puerta arquitectonica del motor.** Se anade `base-architecture-guard` para convertir en obligatoria la evaluacion de escalabilidad, acoplamiento, responsabilidades mezcladas y necesidad de saneamiento estructural previo.
