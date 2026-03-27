@@ -147,18 +147,22 @@ if [ "$AGENT" = "claude-code" ]; then
 
 ## Motor de skills — embebido en CLAUDE.md
 
-Las 11 skills base estan definidas al final de este archivo y se cargan una sola
+Las 12 skills base estan definidas al final de este archivo y se cargan una sola
 vez al inicio del chat como system prompt. No es necesario usar el Skill tool
 para invocarlas: aplica su protocolo directamente desde el contexto.
 
 Reglas de uso:
 1. **base-project-bootstrap** al inicio de cada chat o cuando cambie el alcance.
    Una sola vez por chat — no repetirlo aunque otra skill lo mencione en su flujo.
-2. **base-develop-task** para cualquier cambio de codigo.
+2. **base-architecture-guard** cuando la tarea no sea trivial o toque estructura.
+3. **base-develop-task** para cualquier cambio de codigo.
    Un cambio no esta terminado hasta que la documentacion este persistida en DOC/.
-3. **Para tareas pequenas y obvias** (fix de una linea, cambio trivial),
+4. **La arquitectura importa tanto como la funcionalidad.**
+   No des por buena una solucion solo porque funcione hoy si aumenta el acoplamiento o mezcla responsabilidades innecesariamente.
+5. **Para tareas pequenas y obvias** (fix de una linea, cambio trivial),
    actuar directamente aplicando criterio del motor sin invocar la cadena completa.
-4. Anuncia que skill estas aplicando antes de cada fase.
+6. Anuncia que skill estas aplicando antes de cada fase.
+
 EOF
     echo "" >> "$dest"
     echo "$EMBED_MARKER" >> "$dest"
@@ -166,9 +170,9 @@ EOF
     echo "---" >> "$dest"
     echo "" >> "$dest"
     echo "# Definicion de skills base" >> "$dest"
-    # Orden de carga: bootstrap primero, luego resto alfabetico
     local ORDER=(
       base-project-bootstrap
+      base-architecture-guard
       base-memory-protocol
       base-golden-rules
       base-plan-work

@@ -1,4 +1,4 @@
-# Agent Install Guide — v1.0.3
+# Agent Install Guide — v1.1.0
 
 ## Objetivo
 Instalar el motor base de skills en la configuracion **global** del agente IA, para que esten disponibles en todos los proyectos sin tener que reinstalar por proyecto.
@@ -130,6 +130,9 @@ Este proyecto usa el motor base de skills portables instalado en la configuracio
 | Guardar documentacion               | + `base-document-project`                                                |
 | Exportar/respaldar skills           | `base-backup-skills`                                                     |
 
+Nota:
+- Cuando la tarea no es trivial o afecta estructura, planificacion o una zona fragil, el motor debe activar tambien `base-architecture-guard`.
+
 ### Comportamiento esperado
 - Anunciar explicitamente que skill se esta ejecutando antes de cada fase.
 - Usar `base-document-project` para persistir analisis, planes y tareas.
@@ -175,6 +178,7 @@ Este proyecto usa el motor base de skills portables instalado en la configuracio
 | Skill                    | Descripcion breve                                          |
 |--------------------------|------------------------------------------------------------|
 | `base-analyze-module`    | Analizar un modulo antes de tocarlo                        |
+| `base-architecture-guard`| Evaluar si la solucion es sana para crecer                 |
 | `base-backup-skills`     | Exportar o respaldar el motor de skills                    |
 | `base-data-map`          | Mapear flujo de datos por archivo y metodo                 |
 | `base-develop-task`      | Ejecutar una tarea o plan con consistencia                 |

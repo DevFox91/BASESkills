@@ -1,0 +1,6 @@
+interface:
+  display_name: "Base / Bootstrap"
+  short_description: "Carga AGENTS, reglas y alcance"
+  default_prompt: "Usa $base-project-bootstrap para alinear contexto, AGENTS.md y reglas antes de trabajar."
+policy:
+  allow_implicit_invocation: true

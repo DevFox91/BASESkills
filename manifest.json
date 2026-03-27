@@ -1,5 +1,5 @@
 {
-  "version": "1.0.6",
+  "version": "1.1.0",
   "install": "global",
   "scope": "base",
   "installPaths": {
@@ -12,6 +12,11 @@
       "name": "base-analyze-module",
       "description": "Analizar un modulo desde perspectiva funcional, estructural y tecnica, generando documentacion por proyecto implicado. Usar cuando se pida entender un modulo, auditarlo, documentarlo o detectar riesgos antes de cambiarlo.",
       "folder": "base-analyze-module"
+    },
+    {
+      "name": "base-architecture-guard",
+      "description": "Evaluar si una solucion esta bien planteada para crecer, mantenerse y evolucionar sin acoplamiento innecesario. Usar antes de planificar o desarrollar cuando el cambio afecte estructura, responsabilidades, fronteras entre capas o una zona fragil.",
+      "folder": "base-architecture-guard"
     },
     {
       "name": "base-backup-skills",
