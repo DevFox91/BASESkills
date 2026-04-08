@@ -28,20 +28,31 @@ Desarrollar cambios reales con el mismo flujo de trabajo en cualquier proyecto.
 3. Ejecutar `base-architecture-guard` si el trabajo no es trivial o toca una zona sensible.
 4. Si hay plan, seguir las fases en el orden definido.
 5. Si no hay plan, agrupar mentalmente el trabajo en bloques pequenos antes de tocar codigo.
-6. Aplicar cambios.
-7. Ejecutar validacion minima relevante.
-8. Cerrar la tarea con revision de aprendizaje reusable:
+6. Antes del segundo parche sobre el mismo bug, hacer una pausa de diagnostico si el problema parece de UI runtime, render cliente, DOM, estilos aplicados en tiempo de ejecucion, eventos de ciclo de vida o visibilidad condicional.
+7. En esa pausa de diagnostico, fijar explicitamente en cual de estas capas vive el fallo:
+- servidor
+- tema o CSS estatico
+- cliente o DOM runtime
+- integracion entre capas
+8. Si el componente depende de JavaScript, overlays, `setVisible(false)`, render diferido, resize, attach/detach o mutacion del DOM, anadir una observacion verificable antes de seguir:
+- inspeccion de existencia real de nodos clave
+- estado visible/oculto real
+- instrumentacion minima temporal en consola, objeto global o logs cliente
+9. No encadenar mas cambios visuales mientras no exista al menos una evidencia verificable del estado real del componente en la capa afectada.
+10. Aplicar cambios.
+11. Ejecutar validacion minima relevante.
+12. Cerrar la tarea con revision de aprendizaje reusable:
 - si hubo una leccion que reduzca arranque futuro -> memoria de arranque
 - si hubo una secuencia de ejecucion especialmente eficaz -> memoria de ejecucion
 - si hubo una validacion minima valiosa -> memoria de validacion
 - si hubo un error repetible -> registro de errores y memoria de errores
 - si hubo una decision, patron o descubrimiento vivo -> actualizar memoria de temas en lugar de duplicar notas
-9. Persistir tarea, changelog y memoria relevante con `base-document-project`.
-10. Si durante la tarea se ha reutilizado memoria con impacto real, emitir una salida breve de ahorro:
+13. Persistir tarea, changelog y memoria relevante con `base-document-project`.
+14. Si durante la tarea se ha reutilizado memoria con impacto real, emitir una salida breve de ahorro:
 - formato: `He ahorrado tiempo porque ...`
 - solo cuando la memoria haya evitado exploracion, replanteos, validacion redefinida o rediagnostico
 - si la memoria se consulto pero no aporto ahorro real, no emitir esta salida
-11. Si durante la tarea se detecta una carencia recurrente del propio motor, sugerir ajuste de skill:
+15. Si durante la tarea se detecta una carencia recurrente del propio motor, sugerir ajuste de skill:
 - solo si la mejora propuesta es generalizable a futuros trabajos
 - nunca si la necesidad nace de un proyecto, lenguaje o framework concretos
 - la sugerencia debe explicar que skill tocar y que problema de flujo resolveria
@@ -66,6 +77,10 @@ Detenerse y pedir informacion solo si ocurre una de estas situaciones:
 ## Validacion
 - Si existen tests o comandos de chequeo, usar `base-test-strategy`.
 - Si no existen, hacer la mejor validacion local razonable y registrarla.
+- En bugs de UI dinamica, considerar validacion minima razonable:
+  - existencia real de nodos clave
+  - estado visible/oculto efectivo
+  - evidencia de ciclo de vida cliente si el comportamiento depende de runtime
 - Antes de dar por bueno el cambio, revisar si la solucion ha mejorado, mantenido o empeorado la estructura.
 
 ## Aprendizaje del trabajo

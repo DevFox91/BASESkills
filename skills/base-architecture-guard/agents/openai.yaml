@@ -1,0 +1,6 @@
+interface:
+  display_name: "Base / Arquitectura"
+  short_description: "Evalua acoplamiento y escalabilidad"
+  default_prompt: "Usa $base-architecture-guard para evaluar si una solucion es estructural, tactica-controlada o urgencia-documentada antes de seguir."
+policy:
+  allow_implicit_invocation: true

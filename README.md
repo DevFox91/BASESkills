@@ -1,4 +1,4 @@
-# Skill System Package — v1.1.1
+# Skill System Package — v1.1.2
 
 ## En que consiste
 Este paquete contiene un sistema portable de skills para un agente IA. El sistema esta pensado como un motor de trabajo generalista: organiza el flujo de arranque, analisis, planificacion, desarrollo, validacion, manejo de errores y persistencia documental sin acoplarse a un proyecto, lenguaje o framework concretos.
@@ -15,7 +15,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/DevFox91/BASESkills/main/ins
 Las skills se instalan en la **configuracion global** del agente IA, no dentro de ninguna carpeta de proyecto. Esto las hace disponibles en todos los proyectos sin reinstalar. Ver `AGENT_INSTALL.md` para instrucciones detalladas por agente (Claude Code, Cursor, Windsurf, otros).
 
 ## Alcance exportado
-- Version: `1.1.1`
+- Version: `1.1.2`
 - Scope: `base`
 - Instalacion: `global`
 - Numero de skills incluidas: `12`
@@ -25,11 +25,22 @@ Las skills se instalan en la **configuracion global** del agente IA, no dentro d
 README.md
 AGENT_INSTALL.md
 manifest.json
+scripts/
+  check_integrity.py
 skills/
   <skill>/
     SKILL.md
     ...
 ```
+
+## Verificacion de integridad
+Antes de publicar o reinstalar el paquete desde el repo, conviene ejecutar:
+
+```bash
+python3 scripts/check_integrity.py
+```
+
+El chequeo valida la coherencia minima entre `manifest.json`, `skills/`, descriptores `agents/openai.yaml` y listados documentales clave.
 
 ## Skills incluidas
 - `base-analyze-module`: Analizar un modulo desde perspectiva funcional, estructural y tecnica, generando documentacion por proyecto implicado. Usar cuando se pida entender un modulo, auditarlo, documentarlo o detectar riesgos antes de cambiarlo.
@@ -67,6 +78,12 @@ skills/
 - Las ramas se usan para trabajo o mantenimiento paralelo real, no como sustituto de tags.
 
 ## Changelog
+
+### v1.1.2
+- **Sincronizacion con las skills instaladas y endurecimiento del paquete.** Se traen al repo los ajustes operativos aplicados directamente sobre las skills instaladas para diagnostico y validacion de bugs de UI dinamica.
+- `base-develop-task` incorpora una pausa de diagnostico antes de encadenar parches visuales cuando el fallo parece vivir en runtime cliente, DOM o visibilidad condicional.
+- `base-test-strategy` anade una validacion minima especifica para UI dinamica basada en evidencia verificable del estado real del cliente.
+- El paquete refuerza su autoproteccion con `scripts/check_integrity.py`, integrando chequeo previo en `install.sh` y documentandolo en el `README`.
 
 ### v1.1.1
 - **Limpieza de estrategia Git del repositorio.** Se eliminan snapshots y versiones historicas del arbol principal para dejar `main` como linea viva del sistema.

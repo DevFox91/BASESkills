@@ -11,6 +11,7 @@ if [ ! -t 0 ]; then
 fi
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$SCRIPT_DIR"
 
 # --- Deteccion de modo: local vs curl | bash ---
 REPO_URL="https://github.com/DevFox91/BASESkills.git"
@@ -28,7 +29,22 @@ else
     echo "Clonando repo en $REPO_LOCAL..."
     git clone "$REPO_URL" "$REPO_LOCAL"
   fi
+  REPO_ROOT="$REPO_LOCAL"
   SKILLS_SRC="$REPO_LOCAL/skills"
+fi
+
+# --- Verificacion de integridad del paquete ---
+INTEGRITY_CHECK="$REPO_ROOT/scripts/check_integrity.py"
+if [ -f "$INTEGRITY_CHECK" ]; then
+  if command -v python3 >/dev/null 2>&1; then
+    echo "Verificando integridad del paquete..."
+    if ! python3 "$INTEGRITY_CHECK"; then
+      echo "Abortando instalacion por incoherencias internas del paquete."
+      exit 1
+    fi
+  else
+    echo "[WARN] python3 no esta disponible; se omite la verificacion automatica de integridad."
+  fi
 fi
 
 # --- Deteccion de agentes ---
@@ -49,9 +65,7 @@ if [ ${#CANDIDATES[@]} -eq 0 ]; then
   fi
   AGENT="custom"
   DEST="$CUSTOM_PATH"
-fi
-
-if [ ${#CANDIDATES[@]} -eq 1 ]; then
+elif [ ${#CANDIDATES[@]} -eq 1 ]; then
   echo "Herramienta detectada: ${CANDIDATES[0]%%:*} → ${CANDIDATES[0]##*:}"
   echo "  1) Instalar aqui"
   echo "  2) Ruta personalizada"

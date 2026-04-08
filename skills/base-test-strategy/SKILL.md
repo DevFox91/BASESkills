@@ -36,11 +36,17 @@ Reducir regresiones y decidir que comprobar antes y despues de tocar codigo.
 - linters
 - typecheck
 - checks manuales
-4. Proponer bateria minima previa al cambio.
-5. Tras el cambio, volver a correr la validacion relevante.
-6. Verificar tambien si el cambio afecta responsabilidades vecinas o contratos cercanos.
-7. Si faltan tests importantes, documentar huecos.
-8. Si una validacion minima demuestra valor recurrente, promoverla a `Memory/ValidationMemory.md` mediante `base-document-project`.
+4. Si el bug es de UI runtime, render cliente, overlay, DOM diferido o visibilidad condicional, definir tambien una validacion minima de UI dinamica antes de tocar nada mas.
+5. Esa validacion minima de UI dinamica debe intentar responder, cuando aplique:
+- existen los nodos clave en cliente
+- estan visibles u ocultos por estado real o por CSS
+- el problema nace en servidor, tema estatico o cliente runtime
+- el componente depende de `setVisible(false)`, attach/detach o mutacion posterior
+6. Proponer bateria minima previa al cambio.
+7. Tras el cambio, volver a correr la validacion relevante.
+8. Verificar tambien si el cambio afecta responsabilidades vecinas o contratos cercanos.
+9. Si faltan tests importantes, documentar huecos.
+10. Si una validacion minima demuestra valor recurrente, promoverla a `Memory/ValidationMemory.md` mediante `base-document-project`.
 
 ## Persistencia
 - Por defecto, registrar estrategia y resultado dentro de la tarea.
@@ -52,6 +58,7 @@ Reducir regresiones y decidir que comprobar antes y despues de tocar codigo.
 - Priorizar tests que detecten regresiones del area tocada.
 - Si la pieza tocada es sensible, priorizar checks que detecten regresion de contrato o de inicializacion, no solo del happy path.
 - Si no hay infraestructura de test, dejar una validacion manual explicita.
+- En UI dinamica, no quedarse solo en capturas o percepcion visual si el problema depende de runtime; pedir o generar una observacion verificable del DOM o del ciclo de vida.
 - No promocionar a memoria comandos o checks puntuales que no aporten reutilizacion futura.
 - Solo subir a memoria validaciones minimas estables, no resultados efimeros ni comandos que dependan de un contexto irrepetible.
 - La estrategia minima debe responder, cuando aplique, a esta pregunta: que seria lo primero en romperse si esta pieza creciera o se reutilizara.
