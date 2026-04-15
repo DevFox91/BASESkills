@@ -1,6 +1,6 @@
 interface:
   display_name: "Base / Mapa De Datos"
-  short_description: "Traza datos por archivo y metodo"
-  default_prompt: "Usa $base-data-map para generar un mapa de datos metodo a metodo de uno o varios archivos."
+  short_description: "Traza datos por metodo y renderiza visual por archivo/metodo"
+  default_prompt: "Usa $base-data-map para generar DataMap.md y DataMap.visual.html con cajones por archivo y filas por metodo (recibe-metodo-envia)."
 policy:
   allow_implicit_invocation: true

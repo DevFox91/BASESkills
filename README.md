@@ -1,4 +1,4 @@
-# Skill System Package — v1.1.2
+# Skill System Package — v1.1.3
 
 ## En que consiste
 Este paquete contiene un sistema portable de skills para un agente IA. El sistema esta pensado como un motor de trabajo generalista: organiza el flujo de arranque, analisis, planificacion, desarrollo, validacion, manejo de errores y persistencia documental sin acoplarse a un proyecto, lenguaje o framework concretos.
@@ -15,7 +15,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/DevFox91/BASESkills/main/ins
 Las skills se instalan en la **configuracion global** del agente IA, no dentro de ninguna carpeta de proyecto. Esto las hace disponibles en todos los proyectos sin reinstalar. Ver `AGENT_INSTALL.md` para instrucciones detalladas por agente (Claude Code, Cursor, Windsurf, otros).
 
 ## Alcance exportado
-- Version: `1.1.2`
+- Version: `1.1.3`
 - Scope: `base`
 - Instalacion: `global`
 - Numero de skills incluidas: `12`
@@ -78,6 +78,13 @@ El chequeo valida la coherencia minima entre `manifest.json`, `skills/`, descrip
 - Las ramas se usan para trabajo o mantenimiento paralelo real, no como sustituto de tags.
 
 ## Changelog
+
+### v1.1.3
+- **Estandar visual estricto para `base-data-map`.** La vista `DataMap.visual.html` deja de ser un diagrama libre y pasa a ser una proyeccion 1:1 de `DataMap.md`.
+- Formato obligatorio en la skill: cajon por `ARCHIVO`, fila por `METODO`, con columnas fijas `DATOS QUE RECIBE` (izquierda) / `METODO` (centro) / `DATOS QUE ENVIA` (derecha).
+- Regla explicita para metodos agrupados (`m1 / m2 / m3`): deben desglosarse en filas independientes en la salida visual.
+- Plantilla `skills/base-data-map/assets/datamap-template.html` alineada con este formato y con reglas de fidelidad para impedir elementos no presentes en `DataMap.md`.
+- Prompt por defecto de `skills/base-data-map/agents/openai.yaml` actualizado para reforzar la salida estructurada por archivo y metodo.
 
 ### v1.1.2
 - **Sincronizacion con las skills instaladas y endurecimiento del paquete.** Se traen al repo los ajustes operativos aplicados directamente sobre las skills instaladas para diagnostico y validacion de bugs de UI dinamica.

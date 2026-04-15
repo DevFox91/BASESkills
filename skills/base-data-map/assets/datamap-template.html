@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DataMap Visual</title>
+  <style>
+    :root {
+      --bg: #0b1220;
+      --panel: #111a2c;
+      --line: #2f3f63;
+      --text: #e7ecf7;
+      --muted: #9fb0d2;
+      --file: #34d399;
+      --method: #22c55e;
+      --recv: #38bdf8;
+      --send: #c4b5fd;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: radial-gradient(circle at 20% 10%, #18253f, var(--bg));
+      color: var(--text);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      padding: 20px;
+    }
+
+    .wrap {
+      max-width: 1500px;
+      margin: 0 auto;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(17, 26, 44, 0.92);
+      padding: 16px;
+    }
+
+    h1 { margin: 0; font-size: 20px; }
+
+    .sub {
+      margin: 8px 0 12px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .file-box {
+      border: 1px solid var(--file);
+      border-radius: 12px;
+      padding: 10px;
+      margin-bottom: 14px;
+      background: rgba(52, 211, 153, 0.08);
+    }
+
+    .file-title {
+      margin: 0 0 10px;
+      font-size: 12px;
+      color: #d1fae5;
+      word-break: break-word;
+    }
+
+    .method-row {
+      display: grid;
+      grid-template-columns: 1fr 270px 1fr;
+      gap: 10px;
+      margin-bottom: 10px;
+      border: 1px dashed var(--line);
+      border-radius: 10px;
+      padding: 10px;
+      background: rgba(17, 26, 44, 0.82);
+    }
+
+    .col {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px;
+      min-height: 90px;
+    }
+
+    .recv {
+      border-color: var(--recv);
+      background: rgba(56, 189, 248, 0.12);
+    }
+
+    .method {
+      border-color: var(--method);
+      background: rgba(34, 197, 94, 0.14);
+    }
+
+    .send {
+      border-color: var(--send);
+      background: rgba(196, 181, 253, 0.13);
+    }
+
+    .title {
+      margin: 0 0 6px;
+      font-size: 10px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .method-name {
+      margin: 0;
+      font-size: 11px;
+      line-height: 1.4;
+      color: #dcfce7;
+      word-break: break-word;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 16px;
+      font-size: 11px;
+      line-height: 1.4;
+    }
+
+    li { margin-bottom: 5px; }
+
+    .empty {
+      margin: 0;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .foot {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    @media (max-width: 1150px) {
+      .method-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <h1>DataMap Visual - {{MODULE_NAME}}</h1>
+    <p class="sub">Cajon por archivo y fila por metodo. Izquierda: recibe, centro: metodo, derecha: envia.</p>
+
+    <!--
+      Reglas de render obligatorias:
+      1) Un bloque .file-box por cada bloque ARCHIVO del DataMap.md.
+      2) Dentro de cada file-box, una .method-row por cada METODO.
+      3) En cada method-row: .recv, .method, .send.
+      4) Si el texto trae metodos agrupados (m1 / m2), separarlos en filas independientes.
+      5) No incluir relaciones que no existan en DataMap.md.
+    -->
+
+    <section class="file-box">
+      <h2 class="file-title">ARCHIVO: {{FILE_PATH}}</h2>
+
+      <section class="method-row">
+        <div class="col recv">
+          <p class="title">Datos Que Recibe</p>
+          <ul>
+            <li>{{METHOD_RECEIVE_1}}</li>
+            <li>{{METHOD_RECEIVE_2}}</li>
+          </ul>
+        </div>
+
+        <div class="col method">
+          <p class="title">Metodo</p>
+          <p class="method-name">{{METHOD_NAME}}</p>
+        </div>
+
+        <div class="col send">
+          <p class="title">Datos Que Envia</p>
+          <ul>
+            <li>{{METHOD_SEND_1}}</li>
+            <li>{{METHOD_SEND_2}}</li>
+          </ul>
+        </div>
+      </section>
+    </section>
+
+    <p class="foot">Fuente: DataMap.md | Fecha: {{DATE}} | Scope: {{SCOPE}}</p>
+  </main>
+</body>
+</html>
