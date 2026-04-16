@@ -1,4 +1,4 @@
-# Agent Install Guide — v1.1.3
+# Agent Install Guide — v1.1.4
 
 ## Objetivo
 Instalar el motor base de skills en la configuracion **global** del agente IA, para que esten disponibles en todos los proyectos sin tener que reinstalar por proyecto.

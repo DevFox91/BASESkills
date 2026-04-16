@@ -98,3 +98,22 @@ Arrancar cualquier trabajo con el mismo contexto operativo, inspeccionando prime
 - Skills base a usar en orden.
 - Riesgos estructurales detectados si los hay.
 - Ruta documental objetivo si existe; si no existe, indicar que falta estructura documental formal.
+
+## Contrato de testing del proyecto (obligatorio)
+Durante bootstrap, detectar y dejar explicitado:
+- ruta canonica de tests del proyecto
+- convencion de organizacion por modulo
+- comandos para ejecutar tests:
+  - global (todo)
+  - por modulo o carpeta
+  - por archivo concreto
+
+Si no existe convencion estable de tests, marcarlo como deuda prioritaria y proponer creacion inmediata mediante `base-test-strategy` + `base-document-project`.
+
+## Salida minima extendida (testing)
+Anadir siempre en la salida:
+- Ruta canonica de tests detectada o propuesta.
+- Comando global de regresion.
+- Comando de modulo.
+- Comando de archivo.
+- Estado: `definido` o `pendiente`.

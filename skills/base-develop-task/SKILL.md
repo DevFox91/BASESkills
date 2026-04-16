@@ -146,3 +146,22 @@ Detenerse y pedir informacion solo si ocurre una de estas situaciones:
 - Un cambio de codigo NO esta terminado hasta que la documentacion este persistida.
 - No presentar ningun cambio al usuario como "listo", "hecho" o equivalente sin haber ejecutado el paso 8.
 - Si la sesion termina antes de documentar, indicar explicitamente que la documentacion queda pendiente y hacerlo en el siguiente turno antes de cualquier otro cambio.
+
+## Contrato de testing en desarrollo (obligatorio)
+Regla de prioridad:
+- en cualquier cambio de codigo, `base-test-strategy` pasa de opcional a obligatoria.
+
+Secuencia minima obligatoria cuando se toca codigo:
+1. Consultar tests relacionados del area antes de modificar.
+2. Aplicar cambio.
+3. Crear o actualizar tests reales del cambio en la ruta canonica de tests.
+4. Ejecutar como minimo:
+- run por archivo o modulo tocado
+- run global de regresion cuando el riesgo lo justifique o al cerrar la tarea
+5. No cerrar tarea si hay fallos sin resolver o sin justificacion funcional.
+
+## Condicion de cierre extendida (testing)
+Un cambio de codigo NO esta terminado si falta cualquiera de estos puntos:
+- tests relacionados revisados previamente
+- tests nuevos/actualizados del cambio (salvo excepcion documentada)
+- resultado de ejecucion documentado (pass/fail)

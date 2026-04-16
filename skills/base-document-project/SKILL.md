@@ -103,3 +103,23 @@ Si no hay subproyecto, `MODULO` cuelga directamente de `DOC/PROYECTO/`.
 - No inventar rutas documentales.
 - No mezclar modulos distintos en el mismo directorio.
 - Si el modulo no es evidente, usar el nombre funcional mas pequeno que siga siendo claro.
+
+## Documento estable de estrategia de tests
+Cuando el proyecto tenga cambios de codigo recurrentes, mantener tambien:
+- `TestStrategy.md` en el modulo correspondiente.
+
+Contenido minimo de `TestStrategy.md`:
+- ruta canonica de tests del proyecto
+- convencion por tipo (unit/integration/e2e)
+- convencion de nombrado
+- comando global
+- comando por modulo
+- comando por archivo
+- criterios de regresion y gate de cierre
+
+## Convencion de persistencia de testing
+- Cada `TAREA` con cambio de codigo debe incluir:
+  - tests consultados antes del cambio
+  - tests creados/actualizados
+  - comandos ejecutados y resultado
+- Si una validacion manual se repite y demuestra valor, promoverla a `Memory/ValidationMemory.md`.

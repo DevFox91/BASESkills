@@ -62,3 +62,21 @@ Planificar trabajo de forma ejecutable y documentable, sin depender de lenguaje 
 - No consultar memoria adicional si no cambia el plan de forma real.
 - Un plan no esta bien hecho si solo dice que se toca; tambien debe explicar por que esa estructura favorece cambios futuros seguros.
 - Si el cambio es pequeno pero cae sobre una pieza fragil, el plan debe contemplar saneamiento minimo previo o justificar por que no compensa hacerlo.
+
+## Contrato de plan de testing (obligatorio)
+Todo plan que incluya cambio de codigo debe contener una fase de testing con:
+1. Tests relacionados existentes a consultar antes de cambiar codigo.
+2. Tests nuevos o actualizados a crear en la ruta canonica del proyecto.
+3. Matriz de ejecucion:
+- run global
+- run por modulo
+- run por archivo
+4. Gate de cierre del plan:
+- no cerrar sin resultados de ejecucion reportados.
+
+## Salida minima extendida (testing)
+Anadir siempre al plan:
+- "Ruta de tests": <ruta fija del proyecto>
+- "Consulta previa de tests relacionados": <rutas>
+- "Tests a crear/actualizar por fase": <rutas esperadas>
+- "Comandos de ejecucion": global/modulo/archivo

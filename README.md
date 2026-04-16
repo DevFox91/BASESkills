@@ -1,4 +1,4 @@
-# Skill System Package — v1.1.3
+# Skill System Package — v1.1.4
 
 ## En que consiste
 Este paquete contiene un sistema portable de skills para un agente IA. El sistema esta pensado como un motor de trabajo generalista: organiza el flujo de arranque, analisis, planificacion, desarrollo, validacion, manejo de errores y persistencia documental sin acoplarse a un proyecto, lenguaje o framework concretos.
@@ -15,7 +15,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/DevFox91/BASESkills/main/ins
 Las skills se instalan en la **configuracion global** del agente IA, no dentro de ninguna carpeta de proyecto. Esto las hace disponibles en todos los proyectos sin reinstalar. Ver `AGENT_INSTALL.md` para instrucciones detalladas por agente (Claude Code, Cursor, Windsurf, otros).
 
 ## Alcance exportado
-- Version: `1.1.3`
+- Version: `1.1.4`
 - Scope: `base`
 - Instalacion: `global`
 - Numero de skills incluidas: `12`
@@ -54,7 +54,7 @@ El chequeo valida la coherencia minima entre `manifest.json`, `skills/`, descrip
 - `base-memory-protocol`: Definir cuando consultar, guardar, actualizar y consolidar memoria operativa reusable del motor base. Usar cuando una tarea pueda beneficiarse de contexto previo o deje aprendizaje transversal para futuras sesiones.
 - `base-plan-work`: Generar un plan de trabajo por fases con archivos a tocar, cambios de codigo esperados, justificacion y estado. Usar cuando el usuario pida planificar una tarea antes de implementarla.
 - `base-project-bootstrap`: Leer AGENTS.md, reglas de oro y contexto documental antes de trabajar en uno o varios proyectos. Usar al inicio de un chat o cuando cambie el alcance para alinear proyectos implicados, subproyectos, modulos, skills aplicables y restricciones.
-- `base-test-strategy`: Proponer y ejecutar la estrategia minima de tests antes y despues de cambios, detectando cobertura faltante y riesgos de regresion. Usar cuando se vaya a tocar codigo o cuando se quiera revisar que comprobar en un modulo.
+- `base-test-strategy`: Proponer, crear y ejecutar la estrategia minima de tests antes y despues de cambios, detectando cobertura faltante y riesgos de regresion. Usar cuando se vaya a tocar codigo o cuando se quiera revisar que comprobar en un modulo.
 
 ## Como interactuan entre ellas
 - Flujo base sugerido del motor:
@@ -78,6 +78,14 @@ El chequeo valida la coherencia minima entre `manifest.json`, `skills/`, descrip
 - Las ramas se usan para trabajo o mantenimiento paralelo real, no como sustituto de tags.
 
 ## Changelog
+
+### v1.1.4
+- **Sincronizacion de skills instaladas al repositorio.** Se reflejan en `main` los ajustes operativos que estaban en `~/.codex/skills` para mantener una unica fuente de verdad versionable.
+- `base-project-bootstrap` incorpora contrato de testing del proyecto en la salida minima (rutas y comandos global/modulo/archivo).
+- `base-plan-work` incorpora contrato obligatorio de plan de testing para cualquier cambio de codigo.
+- `base-develop-task` eleva `base-test-strategy` a obligatoria cuando se toca codigo y anade condicion de cierre extendida por tests.
+- `base-test-strategy` se amplia con clasificacion `bugfix|feature|refactor`, regla de regresion historica, gate de cierre y plantilla de salida estandar obligatoria.
+- `base-analyze-module` y `base-document-project` refuerzan cobertura de variantes funcionales y persistencia estable de estrategia de pruebas.
 
 ### v1.1.3
 - **Estandar visual estricto para `base-data-map`.** La vista `DataMap.visual.html` deja de ser un diagrama libre y pasa a ser una proyeccion 1:1 de `DataMap.md`.
