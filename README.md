@@ -70,13 +70,6 @@ El chequeo valida la coherencia minima entre `manifest.json`, `skills/`, descrip
   - `base-document-project` actua como capa de persistencia para planes, tareas, errores, analisis y memoria operativa.
 - `base-backup-skills` queda fuera del flujo diario: sirve para exportar o respaldar el motor cuando se necesita moverlo o conservarlo.
 
-## Politica de versionado del repositorio
-- `main` contiene solo la version viva del sistema.
-- Las versiones publicadas se marcan con tags Git: `vX.Y.Z`.
-- Los artefactos descargables deben vivir en GitHub Releases o generarse externamente.
-- No se guardan snapshots historicos (`v1.0.x/`, zips o copias completas) dentro del arbol principal del repo.
-- Las ramas se usan para trabajo o mantenimiento paralelo real, no como sustituto de tags.
-
 ## Changelog
 
 ### v1.1.4
